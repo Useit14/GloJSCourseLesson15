@@ -7,10 +7,10 @@ const DomElement = function (
   position = "block"
 ) {
   this.selector = selector;
-  this.height = height;
-  this.width = width;
+  this.height = parseFloat(height);
+  this.width = parseFloat(width);
   this.bg = bg;
-  this.fontSize = fontSize;
+  this.fontSize = parseFloat(fontSize);
   this.position = position;
   let elem;
 
@@ -20,48 +20,36 @@ const DomElement = function (
       elem.classList.add(this.selector.substring(1, this.selector.lenght));
     } else {
       elem = document.createElement("p");
-      elem.attributes("id");
       elem.id = this.selector.substring(1, this.selector.lenght);
     }
-    elem.style.cssText = `height:${this.height};width:${this.width};background:${bg};font-size:${this.fontSize};position:${this.position};`;
+    elem.style.cssText = `height:${this.height}px;width:${this.width}px;background:${bg};font-size:${this.fontSize}px;position:${this.position};`;
     elem.textContent = "Block";
     document.body.appendChild(elem);
   };
 
   this.move = function (direction) {
-    debugger;
+    const coordinats = elem.getBoundingClientRect();
+
     switch (direction) {
       case "up":
-        elem.style.top =
-          elem.style.top != ""
-            ? (parseFloat(elem.style.top) - 10).toString() + "px"
-            : "-10px";
+        elem.style.top = (coordinats.top - 10).toString() + "px";
         break;
       case "right":
-        elem.style.left =
-          elem.style.left != ""
-            ? (parseFloat(elem.style.left) + 10).toString() + "px"
-            : "10px";
+        elem.style.left = (coordinats.left + 10).toString() + "px";
         break;
       case "down":
-        elem.style.top =
-          elem.style.top != ""
-            ? (parseFloat(elem.style.top) + 10).toString() + "px"
-            : "10px";
+        elem.style.top = (coordinats.top + 10).toString() + "px";
 
         break;
       case "left":
-        elem.style.left =
-          elem.style.left != ""
-            ? (parseFloat(elem.style.left) - 10).toString() + "px"
-            : "-10px";
+        elem.style.left = (coordinats.left - 10).toString() + "px";
 
         break;
     }
   };
 };
 
-const block1 = new DomElement(".block", "100px", "50px", "red", 24);
+const block1 = new DomElement("#block", "100", "100", "red", "24px");
 
 const square = new DomElement(
   ".block",
